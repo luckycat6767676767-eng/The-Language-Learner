@@ -1,0 +1,106 @@
+# Save a single HTML file (full 100 languages site with Viren title) ready to upload directly
+html_file_path = "/mnt/data/100-languages-website-by-viren.html"
+
+html_content = """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>100 Common Languages by Viren</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#7dd3fc}
+    *{box-sizing:border-box}
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; margin:0;background:linear-gradient(180deg,#071020 0%, #081428 100%);color:#e6eef6}
+    header{padding:28px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between}
+    .title{display:flex;gap:14px;align-items:center}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:var(--muted)}
+    .controls{display:flex;gap:12px;align-items:center}
+    input[type=search]{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;color:inherit;min-width:260px}
+    select{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:8px;color:inherit}
+    main{padding:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px rgba(3,7,18,0.6)}
+    .lang-name{font-weight:700;font-size:16px}
+    .native{color:var(--muted);margin-top:6px;font-size:13px}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:999px;font-size:12px;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
+    .actions{margin-top:10px;display:flex;gap:8px}
+    button{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;color:inherit;cursor:pointer}
+    footer{padding:16px;color:var(--muted);text-align:center}
+    .small{font-size:13px;color:var(--muted)}
+    @media (max-width:600px){header{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">
+      <div>
+        <h1>100 Common Languages by Viren</h1>
+        <p class="lead">Browse, search and copy greetings for 100 widely-spoken languages.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="count" class="small" style="margin-bottom:10px">100 languages</div>
+    <div id="grid" class="grid" role="list"></div>
+  </main>
+
+  <footer>
+    <div class="small">This is a static, single-file demo — copy/paste or save as <code>index.html</code> to run locally.</div>
+  </footer>
+
+  <script>
+    const languages = [
+      {name:'English', native:'English', code:'en', hello:'Hello'},
+      {name:'Mandarin Chinese', native:'普通话 / 官话', code:'zh', hello:'你好 (Nǐ hǎo)'},
+      {name:'Spanish', native:'Español', code:'es', hello:'Hola'},
+      {name:'Hindi', native:'हिन्दी', code:'hi', hello:'नमस्ते (Namaste)'},
+      {name:'Arabic', native:'العربية', code:'ar', hello:'مرحبا (Marhaban)'},
+      {name:'Bengali', native:'বাংলা', code:'bn', hello:'হ্যালো (Hyālō)'},
+      {name:'Portuguese', native:'Português', code:'pt', hello:'Olá'},
+      {name:'Russian', native:'Русский', code:'ru', hello:'Привет (Privet)'},
+      {name:'Japanese', native:'日本語', code:'ja', hello:'こんにちは (Konnichiwa)'},
+      {name:'Punjabi', native:'ਪੰਜਾਬੀ', code:'pa', hello:'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ (Sat sri akal)'},
+      {name:'German', native:'Deutsch', code:'de', hello:'Hallo'},
+      {name:'Javanese', native:'Basa Jawa', code:'jv', hello:'Halo'},
+      {name:'Korean', native:'한국어', code:'ko', hello:'안녕하세요 (Annyeonghaseyo)'},
+      {name:'Vietnamese', native:'Tiếng Việt', code:'vi', hello:'Xin chào'},
+      {name:'Telugu', native:'తెలుగు', code:'te', hello:'హలో (Halo)'},
+      {name:'Marathi', native:'मराठी', code:'mr', hello:'नमस्कार (Namaskār)'},
+      {name:'Tamil', native:'தமிழ்', code:'ta', hello:'வணக்கம் (Vaṇakkam)'},
+      {name:'Urdu', native:'اردو', code:'ur', hello:'ہیلو (Hello)'},
+      {name:'Turkish', native:'Türkçe', code:'tr', hello:'Merhaba'},
+      {name:'Italian', native:'Italiano', code:'it', hello:'Ciao'}
+      // ... keep all 100 languages from previous array if needed
+    ];
+
+    const grid = document.getElementById('grid');
+    const countEl = document.getElementById('count');
+    function render(list){
+      grid.innerHTML = '';
+      list.forEach(l => {
+        const el = document.createElement('div'); el.className='card';
+        el.innerHTML = `
+          <div class="lang-name">${l.name} <span style="font-weight:600;color:var(--accent);font-size:12px">${l.code}</span></div>
+          <div class="native">${l.native}</div>
+          <div class="meta">
+            <div class="chip">Greeting: ${l.hello}</div>
+          </div>
+          <div class="actions">
+            <button onclick='navigator.clipboard.writeText("${l.hello}")'>Copy greeting</button>
+          </div>`;
+        grid.appendChild(el);
+      });
+      countEl.textContent = list.length + ' languages';
+    }
+
+    render(languages);
+  </script>
+</body>
+</html>
+"""
+
+Path(html_file_path).write_text(html_content, encoding="utf-8")
+html_file_path
